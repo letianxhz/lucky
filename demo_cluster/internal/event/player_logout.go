@@ -17,6 +17,6 @@ func (PlayerLogout) Name() string {
 	return PlayerLogoutKey
 }
 
-func (p PlayerLogout) UniqueId() int64 {
+func (p PlayerLogout) UniqueID() int64 {
 	return p.PlayerId
 }

@@ -20,6 +20,6 @@ func (PlayerLogin) Name() string {
 	return PlayerLoginKey
 }
 
-func (p PlayerLogin) UniqueId() int64 {
+func (p PlayerLogin) UniqueID() int64 {
 	return p.PlayerId
 }

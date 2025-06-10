@@ -4,12 +4,12 @@ go 1.18
 
 require (
 	github.com/ahmetb/go-linq/v3 v3.2.0
-	github.com/cherry-game/cherry v1.3.15
-	github.com/cherry-game/cherry/components/cron v1.3.14
-	github.com/cherry-game/cherry/components/data-config v1.3.14
-	github.com/cherry-game/cherry/components/gin v1.3.14
-	github.com/cherry-game/cherry/components/gops v1.3.14
-	github.com/cherry-game/cherry/components/gorm v1.3.14
+	github.com/cherry-game/cherry v1.3.19
+	github.com/cherry-game/cherry/components/cron v1.3.19
+	github.com/cherry-game/cherry/components/data-config v1.3.19
+	github.com/cherry-game/cherry/components/gin v1.3.19
+	github.com/cherry-game/cherry/components/gops v1.3.19
+	github.com/cherry-game/cherry/components/gorm v1.3.19
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/goburrow/cache v0.1.4
@@ -44,10 +44,8 @@ require (
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/lestrrat-go/strftime v1.0.6 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
-	github.com/minio/highwayhash v1.0.3 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/nats-io/jwt/v2 v2.5.8 // indirect
 	github.com/nats-io/nkeys v0.4.7 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
@@ -60,11 +58,10 @@ require (
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/arch v0.3.0 // indirect
-	golang.org/x/crypto v0.19.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/time v0.6.0 // indirect
+	golang.org/x/crypto v0.33.0 // indirect
+	golang.org/x/net v0.25.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.5.2 // indirect
 )

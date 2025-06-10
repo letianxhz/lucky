@@ -16,5 +16,5 @@ var (
 	PlayerNameExist          int32 = 303 // 玩家角色名已存在
 	PlayerCreateFail         int32 = 304 // 玩家创建角色失败
 	PlayerNotLogin           int32 = 305 // 玩家未登录
-	PlayerIdError            int32 = 306 // 玩家id错误
+	PlayerIDError            int32 = 306 // 玩家id错误
 )

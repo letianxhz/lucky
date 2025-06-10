@@ -4,3 +4,6 @@
 bin/
 logs/
 *.exe
+cherry/
+go.work
+go.work.sum

@@ -7,7 +7,6 @@ import (
 	"time"
 
 	chttp "github.com/cherry-game/cherry/extend/http"
-	ctime "github.com/cherry-game/cherry/extend/time"
 	clog "github.com/cherry-game/cherry/logger"
 	pomeloClient "github.com/cherry-game/cherry/net/parser/pomelo/client"
 	"github.com/cherry-game/examples/demo_cluster/internal/code"
@@ -137,7 +136,7 @@ func RunRobot(url, pid, userName, password, addr string, serverId int32, printLo
 		return nil
 	}
 
-	elapsedTime := cli.StartTime.DiffInMillisecond(ctime.Now())
+	elapsedTime := cli.StartTime.NowDiffMillisecond()
 	clog.Debugf("[%s] is enter to game. elapsed time:%dms", cli.TagName, elapsedTime)
 
 	//cli.Disconnect()

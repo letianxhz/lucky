@@ -117,14 +117,14 @@ func (p *actorPlayer) playerCreate(session *cproto.Session, req *pb.PlayerCreate
 func (p *actorPlayer) playerEnter(session *cproto.Session, req *pb.Int64) {
 	playerId := req.Value
 	if playerId < 1 {
-		p.ResponseCode(session, code.PlayerIdError)
+		p.ResponseCode(session, code.PlayerIDError)
 		return
 	}
 
 	// 检查并查找该用户下的该角色
 	playerTable, found := db.GetPlayerTable(req.GetValue())
 	if found == false {
-		p.ResponseCode(session, code.PlayerIdError)
+		p.ResponseCode(session, code.PlayerIDError)
 		return
 	}
 

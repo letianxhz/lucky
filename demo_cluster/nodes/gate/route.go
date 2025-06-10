@@ -44,7 +44,7 @@ func onPomeloDataRoute(agent *pomelo.Agent, route *pmessage.Route, msg *pmessage
 	}
 
 	if agent.NodeType() == route.NodeType() {
-		targetPath := cfacade.NewChildPath(agent.NodeId(), route.HandleName(), session.Sid)
+		targetPath := cfacade.NewChildPath(agent.NodeID(), route.HandleName(), session.Sid)
 		pomelo.LocalDataRoute(agent, session, route, msg, targetPath)
 	} else {
 		gameNodeRoute(agent, session, route, msg)

@@ -17,7 +17,7 @@ func main() {
 	// 配置cherry引擎
 	app := cherry.Configure(
 		"../../config/demo-chat.json", // path       profile配置的文件路径
-		"room-1",                      // nodeId     节点id,每个节点都有唯一的节点id，并且他们归属于某一个节点类型(nodeType)
+		"room-1",                      // nodeID     节点id,每个节点都有唯一的节点id，并且他们归属于某一个节点类型(nodeType)
 		true,                          // isFrontend 节点为前端类型，则可使用connector连接器组件
 		cherry.Standalone,             // nodeMode   单节点模式
 	)
@@ -75,7 +75,7 @@ func onDataRoute(agent *pomelo.Agent, route *pmessage.Route, msg *pmessage.Messa
 	session := pomelo.BuildSession(agent, msg)
 
 	if msg.Route == "room.room.login" {
-		targetPath := cfacade.NewChildPath(agent.NodeId(), route.HandleName(), session.Sid)
+		targetPath := cfacade.NewChildPath(agent.NodeID(), route.HandleName(), session.Sid)
 		pomelo.LocalDataRoute(agent, session, route, msg, targetPath)
 		return
 	}
@@ -86,7 +86,7 @@ func onDataRoute(agent *pomelo.Agent, route *pmessage.Route, msg *pmessage.Messa
 		return
 	}
 
-	targetPath := cfacade.NewPath(agent.NodeId(), route.HandleName())
+	targetPath := cfacade.NewPath(agent.NodeID(), route.HandleName())
 	pomelo.LocalDataRoute(agent, session, route, msg, targetPath)
 }
 
