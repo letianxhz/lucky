@@ -1,10 +1,11 @@
 package main
 
 import (
-	cherryGin "github.com/cherry-game/cherry/components/gin"
-	cherrySnowflake "github.com/cherry-game/cherry/extend/snowflake"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	cherrySnowflake "github.com/cherry-game/cherry/extend/snowflake"
+	cherryGin "github.com/cherry-game/components/gin"
+	"github.com/gin-gonic/gin"
 )
 
 type Test1Controller struct {

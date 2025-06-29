@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/cherry-game/cherry"
-	cherryGORM "github.com/cherry-game/cherry/components/gorm"
+	cherryGORM "github.com/cherry-game/components/gorm"
 )
 
 func main() {

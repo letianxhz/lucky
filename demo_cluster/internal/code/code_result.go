@@ -1,6 +1,6 @@
 package code
 
-import cherryGin "github.com/cherry-game/cherry/components/gin"
+import cherryGin "github.com/cherry-game/components/gin"
 
 type Result struct {
 	Code    int32       `json:"code"`

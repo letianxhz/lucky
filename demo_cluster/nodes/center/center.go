@@ -2,7 +2,7 @@ package center
 
 import (
 	"github.com/cherry-game/cherry"
-	cherryCron "github.com/cherry-game/cherry/components/cron"
+	cherryCron "github.com/cherry-game/components/cron"
 	"github.com/cherry-game/examples/demo_cluster/internal/data"
 	"github.com/cherry-game/examples/demo_cluster/nodes/center/db"
 	"github.com/cherry-game/examples/demo_cluster/nodes/center/module/account"

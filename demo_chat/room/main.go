@@ -3,13 +3,13 @@ package main
 import (
 	"github.com/cherry-game/cherry"
 	ccode "github.com/cherry-game/cherry/code"
-	cgin "github.com/cherry-game/cherry/components/gin"
 	cfacade "github.com/cherry-game/cherry/facade"
 	clog "github.com/cherry-game/cherry/logger"
 	cconnector "github.com/cherry-game/cherry/net/connector"
 	"github.com/cherry-game/cherry/net/parser/pomelo"
 	pmessage "github.com/cherry-game/cherry/net/parser/pomelo/message"
 	cserializer "github.com/cherry-game/cherry/net/serializer"
+	cgin "github.com/cherry-game/components/gin"
 )
 
 // 启动main函数运行聊天室程序

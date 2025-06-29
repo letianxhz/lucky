@@ -3,9 +3,9 @@ package main
 import (
 	"time"
 
-	cherryGORM "github.com/cherry-game/cherry/components/gorm"
 	clog "github.com/cherry-game/cherry/logger"
 	cactor "github.com/cherry-game/cherry/net/actor"
+	cherryGORM "github.com/cherry-game/components/gorm"
 	"gorm.io/gorm"
 )
 

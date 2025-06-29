@@ -1,8 +1,8 @@
 package data
 
 import (
-	cherryDataConfig "github.com/cherry-game/cherry/components/data-config"
 	cherryMapStructure "github.com/cherry-game/cherry/extend/mapstructure"
+	cherryDataConfig "github.com/cherry-game/components/data-config"
 	"github.com/cherry-game/examples/demo_cluster/internal/types"
 )
 

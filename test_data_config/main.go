@@ -4,9 +4,9 @@ import (
 	"time"
 
 	"github.com/cherry-game/cherry"
-	cherryDataConfig "github.com/cherry-game/cherry/components/data-config"
 	cfacade "github.com/cherry-game/cherry/facade"
 	clog "github.com/cherry-game/cherry/logger"
+	cherryDataConfig "github.com/cherry-game/components/data-config"
 )
 
 func main() {

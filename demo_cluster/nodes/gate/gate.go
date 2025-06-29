@@ -5,11 +5,11 @@ import (
 	"time"
 
 	"github.com/cherry-game/cherry"
-	cherryGops "github.com/cherry-game/cherry/components/gops"
 	cfacade "github.com/cherry-game/cherry/facade"
 	cconnector "github.com/cherry-game/cherry/net/connector"
 	"github.com/cherry-game/cherry/net/parser/pomelo"
 	"github.com/cherry-game/cherry/net/parser/simple"
+	cherryGops "github.com/cherry-game/components/gops"
 	checkCenter "github.com/cherry-game/examples/demo_cluster/internal/component/check_center"
 	"github.com/cherry-game/examples/demo_cluster/internal/data"
 )

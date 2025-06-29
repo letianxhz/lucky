@@ -1,9 +1,9 @@
 package controller
 
 import (
-	cherryGin "github.com/cherry-game/cherry/components/gin"
 	cherryString "github.com/cherry-game/cherry/extend/string"
 	cherryLogger "github.com/cherry-game/cherry/logger"
+	cherryGin "github.com/cherry-game/components/gin"
 	"github.com/cherry-game/examples/demo_cluster/internal/code"
 	"github.com/cherry-game/examples/demo_cluster/internal/data"
 	rpcCenter "github.com/cherry-game/examples/demo_cluster/internal/rpc/center"

@@ -2,9 +2,9 @@ package web
 
 import (
 	"github.com/cherry-game/cherry"
-	cherryCron "github.com/cherry-game/cherry/components/cron"
-	cherryGin "github.com/cherry-game/cherry/components/gin"
 	cherryFile "github.com/cherry-game/cherry/extend/file"
+	cherryCron "github.com/cherry-game/components/cron"
+	cherryGin "github.com/cherry-game/components/gin"
 	checkCenter "github.com/cherry-game/examples/demo_cluster/internal/component/check_center"
 	"github.com/cherry-game/examples/demo_cluster/internal/data"
 	"github.com/cherry-game/examples/demo_cluster/nodes/web/controller"
