@@ -6,23 +6,54 @@ import (
 	"sync"
 	"time"
 
+	"lucky/server/pkg/code"
+
 	chttp "github.com/cherry-game/cherry/extend/http"
 	clog "github.com/cherry-game/cherry/logger"
 	pomeloClient "github.com/cherry-game/cherry/net/parser/pomelo/client"
 	jsoniter "github.com/json-iterator/go"
-	
 )
 
 var (
-	maxRobotNum       = 5000                    // 运行x个机器人
-	url               = "http://127.0.0.1:8081" // web node
-	addr              = "127.0.0.1:10011"       // 网关地址(正式环境通过区服列表获取)
-	serverId    int32 = 10001                   // 测试的游戏服id
-	pid               = "2126001"               // 测试的sdk包id
-	printLog          = false                   // 是否输出详细日志
+	maxRobotNum             = 2                       // 运行x个机器人
+	url                     = "http://127.0.0.1:8081" // web node
+	addr                    = "127.0.0.1:10011"       // 网关地址(正式环境通过区服列表获取)
+	serverId          int32 = 10001                   // 测试的游戏服id
+	pid                     = "2126001"               // 测试的sdk包id
+	printLog                = true                    // 是否输出详细日志
+	testBuyItem             = false                   // 是否运行购买道具测试
+	testActorComm           = false                   // 是否运行 Actor 通信测试
+	testRoom                = true                    // 是否运行 Room 功能测试                   // 是否运行 Room 功能测试
+	benchmarkMode           = false                   // 是否运行压测模式
+	benchmarkRobots         = 50                      // 压测机器人数量（先小规模测试）
+	benchmarkRequests       = 20                      // 每个机器人请求数
 )
 
 func main() {
+	// 如果设置了压测模式，运行压测
+	if benchmarkMode {
+		BenchmarkBuyItem(benchmarkRobots, benchmarkRequests)
+		return
+	}
+
+	// 如果设置了测试 Room 功能，运行测试用例
+	if testRoom {
+		TestRoom()
+		return
+	}
+
+	// 如果设置了测试 Actor 通信，运行测试用例
+	if testActorComm {
+		TestActorCommunication()
+		return
+	}
+
+	// 如果设置了测试购买道具，运行测试用例
+	if testBuyItem {
+		TestBuyItem()
+		return
+	}
+
 	wg := sync.WaitGroup{}
 	wg.Add(1)
 

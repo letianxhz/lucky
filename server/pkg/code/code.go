@@ -17,4 +17,8 @@ var (
 	PlayerCreateFail         int32 = 304 // 玩家创建角色失败
 	PlayerNotLogin           int32 = 305 // 玩家未登录
 	PlayerIDError            int32 = 306 // 玩家id错误
+	ShopItemNotFound         int32 = 401 // 商店道具不存在
+	ShopItemNotEnoughMoney   int32 = 402 // 货币不足
+	ShopItemInvalidParam     int32 = 403 // 购买参数错误
+	ShopItemBuyFail          int32 = 404 // 购买失败
 )

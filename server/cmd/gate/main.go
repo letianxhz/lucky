@@ -6,7 +6,7 @@ import (
 
 	"github.com/cherry-game/cherry"
 	clog "github.com/cherry-game/cherry/logger"
-	cherryGops "github.com/ch
+	cherryGops "github.com/cherry-game/components/gops"
 	"lucky/server/app/gate/config"
 	"lucky/server/app/gate/service/router"
 	checkCenter "lucky/server/pkg/component/check_center"

@@ -7,14 +7,13 @@ import (
 	"github.com/cherry-game/cherry"
 	cherryFile "github.com/cherry-game/cherry/extend/file"
 	clog "github.com/cherry-game/cherry/logger"
-	cherry
 	cherryCron "github.com/cherry-game/components/cron"
+	cherryGin "github.com/cherry-game/components/gin"
 	"github.com/gin-gonic/gin"
-	"lucky/server/pkg/data"
 	"lucky/server/app/web/controller"
+	"lucky/server/app/web/sdk"
 	checkCenter "lucky/server/pkg/component/check_center"
 	"lucky/server/pkg/data"
-	clog "github.com/cherry-game/cherry/logger"
 )
 
 func main() {

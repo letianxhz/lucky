@@ -1,7 +1,7 @@
 // TODO message结构的属性名请使用 驼峰小写字母开始
 // TODO enum枚举的属性名请使用 驼峰大写字母开始
 syntax = "proto3";
-option go_package = "/pb";
+option go_package = "lucky/server/gen/msg";
 package pb;
 
 

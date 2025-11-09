@@ -6,7 +6,7 @@ import (
 	cfacade "github.com/cherry-game/cherry/facade"
 	clog "github.com/cherry-game/cherry/logger"
 	cproto "github.com/cherry-game/cherry/net/proto"
-	"lucky/server/pkg/pb"
+	"lucky/server/gen/msg"
 	sessionKey "lucky/server/pkg/session_key"
 )
 
@@ -27,7 +27,7 @@ func SessionClose(app cfacade.IApplication, session *cproto.Session) {
 	}
 
 	targetPath := fmt.Sprintf("%s.%s.%s", nodeID, playerActor, session.Sid)
-	app.ActorSystem().Call("", targetPath, sessionClose, &pb.Int64{
+	app.ActorSystem().Call("", targetPath, sessionClose, &msg.Int64{
 		Value: session.Uid,
 	})
 

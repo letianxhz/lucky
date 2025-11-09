@@ -7,8 +7,9 @@ import (
 	"github.com/cherry-game/cherry/net/parser/pomelo"
 	pmessage "github.com/cherry-game/cherry/net/parser/pomelo/message"
 	cproto "github.com/cherry-game/cherry/net/proto"
+	"lucky/server/gen/msg"
 	"lucky/server/pkg/code"
-	"lucky/server/pkg/pb"
+	sessionKey "luck
 	sessionKey "lucky/server/pkg/session_key"
 )
 
@@ -23,7 +24,7 @@ var (
 		"game.player.enter",  //玩家角色进入游戏
 	}
 
-	notLoginRsp = &pb.Int32{
+	notLoginRsp = &msg.Int32{
 		Value: code.PlayerDenyLogin,
 	}
 )

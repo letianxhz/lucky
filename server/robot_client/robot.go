@@ -5,14 +5,15 @@ import (
 	"math/rand"
 	"time"
 
+	"lucky/server/gen/msg"
+	"lucky/server/pkg/code"
+
 	cherryError "github.com/cherry-game/cherry/error"
 	cherryHttp "github.com/cherry-game/cherry/extend/http"
 	cherryTime "github.com/cherry-game/cherry/extend/time"
 	cherryLogger "github.com/cherry-game/cherry/logger"
 	cherryClient "github.com/cherry-game/cherry/net/parser/pomelo/client"
 	jsoniter "github.com/json-iterator/go"
-	"lucky/server/pkg/code"
-	"lucky/server/pkg/pb"
 )
 
 type (
@@ -76,7 +77,7 @@ func (p *Robot) UserLogin(serverId int32) error {
 
 	p.Debugf("[%s] [UserLogin] request ServerID = %d", p.TagName, serverId)
 
-	msg, err := p.Request(route, &pb.LoginRequest{
+	msg, err := p.Request(route, &msg.LoginRequest{
 		ServerId: serverId,
 		Token:    p.Token,
 		Params:   nil,
@@ -88,7 +89,7 @@ func (p *Robot) UserLogin(serverId int32) error {
 
 	p.ServerId = serverId
 
-	rsp := &pb.LoginResponse{}
+	rsp := &msg.LoginResponse{}
 	err = p.Serializer().Unmarshal(msg.Data, rsp)
 	if err != nil {
 		return err
@@ -106,12 +107,12 @@ func (p *Robot) UserLogin(serverId int32) error {
 func (p *Robot) PlayerSelect() error {
 	route := "game.player.select"
 
-	msg, err := p.Request(route, &pb.None{})
+	msg, err := p.Request(route, &msg.None{})
 	if err != nil {
 		return err
 	}
 
-	rsp := &pb.PlayerSelectResponse{}
+	rsp := &msg.PlayerSelectResponse{}
 	err = p.Serializer().Unmarshal(msg.Data, rsp)
 	if err != nil {
 		return err
@@ -130,8 +131,13 @@ func (p *Robot) PlayerSelect() error {
 	return nil
 }
 
-// ActorCreate 创建角色
+// ActorCreate 创建角色（使用默认名称）
 func (p *Robot) ActorCreate() error {
+	return p.ActorCreateWithName("p" + p.OpenId)
+}
+
+// ActorCreateWithName 创建角色（指定名称）
+func (p *Robot) ActorCreateWithName(playerName string) error {
 	if p.PlayerId > 0 {
 		p.Debugf("[%s] deny create actor", p.TagName)
 		return nil
@@ -140,8 +146,8 @@ func (p *Robot) ActorCreate() error {
 	route := "game.player.create"
 	gender := rand.Int31n(1)
 
-	req := &pb.PlayerCreateRequest{
-		PlayerName: "p" + p.OpenId,
+	req := &msg.PlayerCreateRequest{
+		PlayerName: playerName,
 		Gender:     gender,
 	}
 
@@ -150,7 +156,7 @@ func (p *Robot) ActorCreate() error {
 		return err
 	}
 
-	rsp := &pb.PlayerCreateResponse{}
+	rsp := &msg.PlayerCreateResponse{}
 	err = p.Serializer().Unmarshal(msg.Data, rsp)
 	if err != nil {
 		return err
@@ -167,7 +173,7 @@ func (p *Robot) ActorCreate() error {
 // ActorEnter 角色进入游戏
 func (p *Robot) ActorEnter() error {
 	route := "game.player.enter"
-	req := &pb.Int64{
+	req := &msg.Int64{
 		Value: p.PlayerId,
 	}
 
@@ -176,13 +182,44 @@ func (p *Robot) ActorEnter() error {
 		return err
 	}
 
-	rsp := &pb.PlayerEnterResponse{}
+	rsp := &msg.PlayerEnterResponse{}
 	err = p.Serializer().Unmarshal(msg.Data, rsp)
 	if err != nil {
 		return err
 	}
 
 	p.Debugf("[%s] [ActorEnter] response PlayerID = %d,ActorName = %s", p.TagName, p.PlayerId, p.PlayerName)
+	return nil
+}
+
+// BuyItem 购买道具
+func (p *Robot) BuyItem(shopId, itemId, count, payType int32) error {
+	route := "game.player.buyItem"
+
+	req := &msg.BuyItemRequest{
+		ShopId:  shopId,
+		ItemId:  itemId,
+		Count:   count,
+		PayType: payType,
+	}
+
+	p.Debugf("[%s] [BuyItem] request shopId=%d, itemId=%d, count=%d, payType=%d",
+		p.TagName, shopId, itemId, count, payType)
+
+	msg, err := p.Request(route, req)
+	if err != nil {
+		return err
+	}
+
+	rsp := &msg.BuyItemResponse{}
+	err = p.Serializer().Unmarshal(msg.Data, rsp)
+	if err != nil {
+		return err
+	}
+
+	p.Debugf("[%s] [BuyItem] response itemId=%d, count=%d, payType=%d, costAmount=%d, items=%+v",
+		p.TagName, rsp.ItemId, rsp.Count, rsp.PayType, rsp.CostAmount, rsp.Items)
+
 	return nil
 }
 

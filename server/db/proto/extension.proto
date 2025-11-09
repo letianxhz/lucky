@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package xdb;
+
+option go_package = "lucky/server/pkg/xdb";
+
+import "google/protobuf/descriptor.proto";
+
+// 文件级别选项
+extend google.protobuf.FileOptions {
+  string database_default = 70001;  // 默认数据库名
+  string driver_default = 70002;     // 默认驱动类型
+}
+
+// 驱动类型枚举
+enum DriverType {
+  DRIVER_NONE = 0;
+  DRIVER_MYSQL = 1;
+  DRIVER_MONGODB = 2;
+}
+
+// 布局类型枚举
+enum LayoutType {
+  LAYOUT_FLAT = 0;    // 扁平布局
+  LAYOUT_NESTED = 1;  // 嵌套布局
+}
+
+// Message 级别选项
+extend google.protobuf.MessageOptions {
+  string database = 71001;          // 数据库名
+  string table = 71002;             // 表名
+  DriverType driver = 71003;        // 驱动类型
+  LayoutType layout = 71004;        // 布局类型
+  bool replica = 71005;              // 是否为副本
+  int32 lock_priority = 71006;      // 锁优先级
+  bool lock_free_entire = 71007;    // 整个消息无锁
+  bool cross_server = 71008;         // 跨服务器
+}
+
+// Field 级别选项
+extend google.protobuf.FieldOptions {
+  bool pk = 72001;                   // 主键字段
+  bool gk = 72002;                   // 全局键字段
+  bool runtime = 72003;              // 运行时字段（不持久化）
+  bool ticket = 72004;               // 需要 ticket 生成 ID
+  bool readonly = 72005;             // 只读字段
+  bool lock_free = 72006;            // 无锁字段
+  bool critical = 72007;             // 关键字段
+  bool shard_hint = 72008;           // 分片提示
+  string comment = 72009;            // 字段注释
+}
+

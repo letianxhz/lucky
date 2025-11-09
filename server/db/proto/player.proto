@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package db;
+
+option go_package = "lucky/server/gen/db";
+
+import "extension.proto";
+
+// Player 玩家数据表
+message Player {
+  option (xdb.table) = "player";
+  option (xdb.driver) = DRIVER_MYSQL;  // 使用 MySQL 驱动
+  option (xdb.lock_priority) = 1;
+  
+  int64 player_id = 1 [(xdb.pk) = true, (xdb.comment) = "玩家ID"];
+  string name = 2 [(xdb.comment) = "玩家名称"];
+  int32 level = 3 [(xdb.comment) = "玩家等级"];
+  int64 exp = 4 [(xdb.comment) = "经验值"];
+  int64 _version = 5 [(xdb.runtime) = true];  // 版本号，不持久化
+  int64 ctime = 6 [(xdb.comment) = "创建时间"];
+  int64 mtime = 7 [(xdb.comment) = "修改时间"];
+}
+
+// Item 道具表（复合主键示例）
+message Item {
+  option (xdb.table) = "item";
+  option (xdb.driver) = DRIVER_MYSQL;  // 使用 MySQL 驱动
+  
+  int64 player_id = 1 [(xdb.pk) = true, (xdb.comment) = "玩家ID"];
+  int32 item_id = 2 [(xdb.pk) = true, (xdb.comment) = "道具ID"];
+  int64 count = 3 [(xdb.comment) = "道具数量"];
+  int64 _version = 4 [(xdb.runtime) = true];
+  int64 ctime = 5 [(xdb.comment) = "创建时间"];
+  int64 mtime = 6 [(xdb.comment) = "修改时间"];
+}
+

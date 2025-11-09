@@ -36,10 +36,10 @@ if ! pgrep -f "./bin/gate" > /dev/null; then
     exit 1
 fi
 
-if ! pgrep -f "./bin/game" > /dev/null; then
-    echo -e "${RED}✗ Game 服务未运行，请先运行 ./start_all.sh${NC}"
-    exit 1
-fi
+#if ! pgrep -f "./bin/game" > /dev/null; then
+#    echo -e "${RED}✗ Game 服务未运行，请先运行 ./start_all.sh${NC}"
+#    exit 1
+#fi
 
 echo -e "${GREEN}✓ 所有必需服务正在运行${NC}"
 echo ""

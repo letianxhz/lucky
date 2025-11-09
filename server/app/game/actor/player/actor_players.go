@@ -6,7 +6,7 @@ import (
 	cfacade "github.com/cherry-game/cherry/facade"
 	clog "github.com/cherry-game/cherry/logger"
 	"github.com/cherry-game/cherry/net/parser/pomelo"
-	online "lucky/server/app/game/module"
+	"lucky/server/app/game/module/shared/online"
 	"lucky/server/pkg/event"
 )
 

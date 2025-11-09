@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "/pb";
+option go_package = "lucky/server/gen/msg";
 package cherry.proto.pb;
 
 // 注册开发帐号

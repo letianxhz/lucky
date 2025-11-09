@@ -7,9 +7,10 @@ import (
 	cactor "github.com/cherry-game/cherry/net/actor"
 	"github.com/cherry-game/cherry/net/parser/pomelo"
 	cproto "github.com/cherry-game/cherry/net/proto"
+	"lucky/server/gen/msg"
+
 	"lucky/server/pkg/code"
-	"lucky/server/pkg/data"
-	"lucky/server/pkg/pb"
+	"lucky/server/gen/msg"
 	rpcCenter "lucky/server/pkg/rpc/center"
 	sessionKey "lucky/server/pkg/session_key"
 	"lucky/server/pkg/token"
@@ -38,7 +39,7 @@ func (p *AgentActor) OnInit() {
 	p.Remote().Register("setSession", p.setSession)
 }
 
-func (p *AgentActor) setSession(req *pb.StringKeyValue) {
+func (p *AgentActor) setSession(req *msg.StringKeyValue) {
 	if req.Key == "" {
 		return
 	}
@@ -48,8 +49,8 @@ func (p *AgentActor) setSession(req *pb.StringKeyValue) {
 	}
 }
 
-// login 用户登录，验证帐号 (*pb.LoginResponse, int32)
-func (p *AgentActor) login(session *cproto.Session, req *pb.LoginRequest) {
+// login 用户登录，验证帐号 (*msg.LoginResponse, int32)
+func (p *AgentActor) login(session *cproto.Session, req *msg.LoginRequest) {
 	agent, found := pomelo.GetAgent(p.ActorID(), 0)
 	if !found {
 		return
@@ -94,7 +95,7 @@ func (p *AgentActor) login(session *cproto.Session, req *pb.LoginRequest) {
 	agent.Session().Set(sessionKey.PID, cstring.ToString(userToken.PID))
 	agent.Session().Set(sessionKey.OpenID, userToken.OpenID)
 
-	response := &pb.LoginResponse{
+	response := &msg.LoginResponse{
 		Uid:    uid,
 		Pid:    userToken.PID,
 		OpenId: userToken.OpenID,

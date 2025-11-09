@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package test;
+
+option go_package = "lucky/server/pkg/xdb/protoc-gen-xdb/test";
+
+// Player 玩家数据表
+message Player {
+  int64 player_id = 1;    // 主键
+  string name = 2;
+  int32 level = 3;
+  int64 exp = 4;
+  int64 _version = 5;      // 运行时字段
+  int64 ctime = 6;
+  int64 mtime = 7;
+}
+
+// Item 道具表（复合主键示例）
+message Item {
+  int64 player_id = 1;    // 主键
+  int32 item_id = 2;      // 主键
+  int64 count = 3;
+  int64 _version = 4;     // 运行时字段
+  int64 ctime = 5;
+  int64 mtime = 6;
+}
+

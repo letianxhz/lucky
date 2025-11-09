@@ -3,8 +3,8 @@ package rpcCenter
 import (
 	cfacade "github.com/cherry-game/cherry/facade"
 	clog "github.com/cherry-game/cherry/logger"
-	"lucky/server/pkg/code"
-	"lucky/server/pkg/pb"
+	"lucky/server/gen/msg"
+	
 )
 
 // route = 节点类型.节点handler.remote函数
@@ -36,7 +36,7 @@ func Ping(app cfacade.IApplication) bool {
 		return false
 	}
 
-	rsp := &pb.Bool{}
+	rsp := &msg.Bool{}
 	targetPath := nodeID + opsActor
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, ping, nil, rsp)
 	if code.IsFail(errCode) {
@@ -48,14 +48,14 @@ func Ping(app cfacade.IApplication) bool {
 
 // RegisterDevAccount 注册帐号
 func RegisterDevAccount(app cfacade.IApplication, accountName, password, ip string) int32 {
-	req := &pb.DevRegister{
+	req := &msg.DevRegister{
 		AccountName: accountName,
 		Password:    password,
 		Ip:          ip,
 	}
 
 	targetPath := GetTargetPath(app, accountActor)
-	rsp := &pb.Int32{}
+	rsp := &msg.Int32{}
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, registerDevAccount, req, rsp)
 	if code.IsFail(errCode) {
 		clog.Warnf("[RegisterDevAccount] accountName = %s, errCode = %v", accountName, errCode)
@@ -67,13 +67,13 @@ func RegisterDevAccount(app cfacade.IApplication, accountName, password, ip stri
 
 // GetDevAccount 获取帐号信息
 func GetDevAccount(app cfacade.IApplication, accountName, password string) int64 {
-	req := &pb.DevRegister{
+	req := &msg.DevRegister{
 		AccountName: accountName,
 		Password:    password,
 	}
 
 	targetPath := GetTargetPath(app, accountActor)
-	rsp := &pb.Int64{}
+	rsp := &msg.Int64{}
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, getDevAccount, req, rsp)
 	if code.IsFail(errCode) {
 		clog.Warnf("[GetDevAccount] accountName = %s, errCode = %v", accountName, errCode)
@@ -85,14 +85,14 @@ func GetDevAccount(app cfacade.IApplication, accountName, password string) int64
 
 // GetUID 获取帐号UID
 func GetUID(app cfacade.IApplication, sdkId, pid int32, openId string) (cfacade.UID, int32) {
-	req := &pb.User{
+	req := &msg.User{
 		SdkId:  sdkId,
 		Pid:    pid,
 		OpenId: openId,
 	}
 
 	targetPath := GetTargetPath(app, accountActor)
-	rsp := &pb.Int64{}
+	rsp := &msg.Int64{}
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, getUID, req, rsp)
 	if code.IsFail(errCode) {
 		clog.Warnf("[GetUID] errCode = %v", errCode)

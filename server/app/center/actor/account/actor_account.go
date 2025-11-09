@@ -5,8 +5,8 @@ import (
 
 	cactor "github.com/cherry-game/cherry/net/actor"
 	"lucky/server/app/center/db"
-	"lucky/server/pkg/code"
-	"lucky/server/pkg/pb"
+	"lucky/server/gen/msg"
+	
 )
 
 type (
@@ -27,7 +27,7 @@ func (p *ActorAccount) OnInit() {
 }
 
 // registerDevAccount 注册开发者帐号
-func (p *ActorAccount) registerDevAccount(req *pb.DevRegister) int32 {
+func (p *ActorAccount) registerDevAccount(req *msg.DevRegister) int32 {
 	accountName := req.AccountName
 	password := req.Password
 
@@ -47,7 +47,7 @@ func (p *ActorAccount) registerDevAccount(req *pb.DevRegister) int32 {
 }
 
 // getDevAccount 根据帐号名获取开发者帐号表
-func (p *ActorAccount) getDevAccount(req *pb.DevRegister) (*pb.Int64, int32) {
+func (p *ActorAccount) getDevAccount(req *msg.DevRegister) (*msg.Int64, int32) {
 	accountName := req.AccountName
 	password := req.Password
 
@@ -56,15 +56,15 @@ func (p *ActorAccount) getDevAccount(req *pb.DevRegister) (*pb.Int64, int32) {
 		return nil, code.AccountAuthFail
 	}
 
-	return &pb.Int64{Value: devAccount.AccountId}, code.OK
+	return &msg.Int64{Value: devAccount.AccountId}, code.OK
 }
 
 // getUID 获取uid
-func (p *ActorAccount) getUID(req *pb.User) (*pb.Int64, int32) {
+func (p *ActorAccount) getUID(req *msg.User) (*msg.Int64, int32) {
 	uid, ok := db.BindUID(req.SdkId, req.Pid, req.OpenId)
 	if uid == 0 || ok == false {
 		return nil, code.AccountBindFail
 	}
 
-	return &pb.Int64{Value: uid}, code.OK
+	return &msg.Int64{Value: uid}, code.OK
 }

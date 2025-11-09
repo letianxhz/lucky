@@ -6,8 +6,10 @@ import (
 
 	"lucky/server/app/game/actor"
 	"lucky/server/app/game/db"
+	_ "lucky/server/app/game/module" // 触发模块的 init 函数
 	checkCenter "lucky/server/pkg/component/check_center"
 	"lucky/server/pkg/data"
+	"lucky/server/pkg/di"
 
 	"github.com/cherry-game/cherry"
 	cherrySnowflake "github.com/cherry-game/cherry/extend/snowflake"
@@ -54,10 +56,14 @@ func main() {
 	app.Register(checkCenter.New())
 	app.Register(db.New())
 
-	// 注册Actor
-	app.AddActors(
-		actor.NewActorPlayers(),
-	)
+	// 统一初始化 di 容器，为所有已注册的组件注入依赖
+	// 参考 claim ioc 的实现
+	// 各个模块通过 init 函数自动注册，这里统一注入依赖
+	di.MustInitialize()
+
+	// 注册所有 Actor（统一管理，便于维护和扩展）
+	// 新增 Actor 时，只需在 actor/registry.go 中添加即可
+	app.AddActors(actor.RegisterActors()...)
 
 	clog.Info("Game server starting...")
 

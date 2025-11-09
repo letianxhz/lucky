@@ -1,0 +1,23 @@
+// TODO message结构的属性名请使用 驼峰小写字母开始
+// TODO enum枚举的属性名请使用 驼峰大写字母开始
+syntax = "proto3";
+option go_package = "lucky/server/gen/msg";
+package pb;
+
+// 购买道具请求
+message BuyItemRequest {
+  int32 shopId = 1;      // 商店ID
+  int32 itemId = 2;       // 道具ID
+  int32 count = 3;        // 购买数量
+  int32 payType = 4;      // 支付类型(1:金币, 2:钻石, 3:仙玉等)
+}
+
+// 购买道具响应
+message BuyItemResponse {
+  int32 itemId = 1;       // 道具ID
+  int32 count = 2;        // 购买数量
+  int32 payType = 3;      // 支付类型
+  int64 costAmount = 4;   // 消耗金额
+  map<int32, int64> items = 5;  // 获得的道具列表 (itemId -> count)
+}
+
