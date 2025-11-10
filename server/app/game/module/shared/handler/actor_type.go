@@ -24,6 +24,10 @@ const (
 	// ActorTypeWorld 世界 Actor
 	// 处理世界相关的消息，如世界聊天、世界事件等
 	ActorTypeWorld ActorType = "world"
+
+	// ActorTypeUUid UUid Actor
+	// 处理 UUid 相关的消息
+	ActorTypeUUid = "uuid"
 )
 
 // String 返回 Actor 类型的字符串表示

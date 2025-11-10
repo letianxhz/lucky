@@ -3,7 +3,7 @@ package room
 import (
 	"lucky/server/app/game/module/shared/handler"
 	"lucky/server/gen/msg"
-
+	"lucky/server/pkg/di"
 
 	clog "github.com/cherry-game/cherry/logger"
 	cproto "github.com/cherry-game/cherry/net/proto"

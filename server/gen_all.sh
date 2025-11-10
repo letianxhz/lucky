@@ -41,9 +41,9 @@ if ! command -v protoc &> /dev/null; then
     exit 1
 fi
 
-# 查找所有 .proto 文件（在 db/proto 目录下）
+# 查找所有 .proto 文件（在 db/proto 目录下，包括子目录）
 PROTO_DIR="$SCRIPT_DIR/db/proto"
-PROTO_FILES=$(find "$PROTO_DIR" -maxdepth 1 -name "*.proto" -type f 2>/dev/null)
+PROTO_FILES=$(find "$PROTO_DIR" -name "*.proto" -type f 2>/dev/null | grep -v extension.proto)
 
 # 如果没有找到，尝试从 example 目录查找（兼容旧代码）
 if [ -z "$PROTO_FILES" ]; then
@@ -59,10 +59,26 @@ fi
 echo "1. 生成 db 代码（pb 代码）..."
 for proto_file in $PROTO_FILES; do
     proto_name=$(basename "$proto_file" .proto)
+    proto_dir=$(dirname "$proto_file")
     
-    echo "   处理: $proto_name.proto"
+    echo "   处理: $proto_file"
     
-    # 生成 proto Go 代码
+    # 计算相对于 PROTO_DIR 的路径
+    proto_rel_path=$(python3 -c "import os; print(os.path.relpath('$proto_file', '$PROTO_DIR'))" 2>/dev/null || echo "$(basename "$proto_file")")
+    proto_rel_dir=$(dirname "$proto_rel_path")
+    
+    # 如果 proto_rel_dir 是 "."，说明在根目录，否则在子目录
+    if [ "$proto_rel_dir" = "." ]; then
+        output_subdir=""
+        package_name="db"
+    else
+        # 保持子目录结构，例如 center/uuid.proto -> gen/db/center/
+        output_subdir="$proto_rel_dir"
+        package_name="$(basename "$proto_rel_dir")"  # 使用目录名作为包名（如 center）
+        mkdir -p "$DB_DIR/$output_subdir"
+    fi
+    
+    # 生成 proto Go 代码（使用 source_relative 会自动保持目录结构）
     protoc \
       --go_out="$DB_DIR" \
       --go_opt=paths=source_relative \
@@ -70,7 +86,7 @@ for proto_file in $PROTO_FILES; do
       --proto_path="$XDB_DIR" \
       "$proto_file"
     
-    # 生成 xdb 代码
+    # 生成 xdb 代码（也需要保持目录结构）
     protoc \
       --proto_path="$PROTO_DIR" \
       --proto_path="$XDB_DIR" \
@@ -81,13 +97,32 @@ for proto_file in $PROTO_FILES; do
     echo "   ✓ $proto_name.pb.go 和 ${proto_name}_xdb.pb.go 生成成功"
 done
 
-# 移动生成的文件到 db 目录（如果生成到了子目录）
+# 移动生成的文件到正确的目录（如果生成到了子目录，如 lucky/server/gen/db）
+# 处理各种可能的路径格式
 if [ -d "$DB_DIR/lucky" ]; then
-    find "$DB_DIR/lucky" -name "*.pb.go" -exec mv {} "$DB_DIR/" \; 2>/dev/null || true
+    find "$DB_DIR/lucky" -name "*.pb.go" -type f | while read file; do
+        # 尝试提取相对路径（从 lucky/server/gen/db/ 之后）
+        rel_path=$(echo "$file" | sed "s|^$DB_DIR/lucky/server/gen/db/||" 2>/dev/null)
+        if [ "$rel_path" = "$file" ] || [ -z "$rel_path" ]; then
+            # 尝试其他格式（从 lucky/ 之后）
+            rel_path=$(echo "$file" | sed "s|^$DB_DIR/lucky/||" 2>/dev/null)
+        fi
+        if [ "$rel_path" != "$file" ] && [ -n "$rel_path" ]; then
+            # 提取子目录部分（如 center/uuid.xdb.pb.go -> center/）
+            target_dir="$DB_DIR/$(dirname "$rel_path")"
+            # 如果是根目录，target_dir 就是 DB_DIR
+            if [ "$(dirname "$rel_path")" = "." ]; then
+                target_dir="$DB_DIR"
+            fi
+            mkdir -p "$target_dir"
+            mv "$file" "$target_dir/" 2>/dev/null && echo "   移动: $(basename "$file") -> $target_dir/"
+        fi
+    done
     rm -rf "$DB_DIR/lucky" 2>/dev/null || true
 fi
 
-# 修改生成的代码包名为 db
+# 修改生成的代码包名
+# 对于根目录的文件，包名为 db
 for f in "$DB_DIR"/*.pb.go; do
     if [ -f "$f" ]; then
         sed -i '' -e 's/^package example$/package db/' -e 's/^package main$/package db/' -e 's/^package pb$/package db/' "$f" 2>/dev/null || \
@@ -95,19 +130,37 @@ for f in "$DB_DIR"/*.pb.go; do
     fi
 done
 
-# 移动 SQL 文件到 sql 目录
+# 对于子目录的文件，包名为目录名
+find "$DB_DIR" -type d -mindepth 1 | while read subdir; do
+    package_name=$(basename "$subdir")
+    for f in "$subdir"/*.pb.go; do
+        if [ -f "$f" ]; then
+            sed -i '' -e "s/^package example$/package $package_name/" -e "s/^package main$/package $package_name/" -e "s/^package pb$/package $package_name/" -e "s/^package db$/package $package_name/" "$f" 2>/dev/null || \
+            sed -i -e "s/^package example$/package $package_name/" -e "s/^package main$/package $package_name/" -e "s/^package pb$/package $package_name/" -e "s/^package db$/package $package_name/" "$f"
+        fi
+    done
+done
+
+# 移动 SQL 文件到 sql 目录（保持子目录结构）
+# 从 DB_DIR 移动 SQL 文件到 SQL_DIR
+find "$DB_DIR" -name "*.sql" -type f | while read sql_file; do
+    # 计算相对于 DB_DIR 的路径
+    rel_path=$(echo "$sql_file" | sed "s|^$DB_DIR/||")
+    target_dir="$SQL_DIR/$(dirname "$rel_path")"
+    # 如果是根目录的文件，target_dir 就是 SQL_DIR
+    if [ "$(dirname "$rel_path")" = "." ]; then
+        target_dir="$SQL_DIR"
+    fi
+    mkdir -p "$target_dir"
+    mv "$sql_file" "$target_dir/" 2>/dev/null || true
+done
+
+# 兼容：从 PROTO_DIR 复制 SQL 文件（如果存在）
 if [ -f "$PROTO_DIR/player.sql" ]; then
     cp "$PROTO_DIR/player.sql" "$SQL_DIR/" 2>/dev/null || true
 fi
 if [ -f "$PROTO_DIR/item.sql" ]; then
     cp "$PROTO_DIR/item.sql" "$SQL_DIR/" 2>/dev/null || true
-fi
-# 如果生成到了 db 目录，也移动
-if [ -f "$DB_DIR/player.sql" ]; then
-    mv "$DB_DIR/player.sql" "$SQL_DIR/" 2>/dev/null || true
-fi
-if [ -f "$DB_DIR/item.sql" ]; then
-    mv "$DB_DIR/item.sql" "$SQL_DIR/" 2>/dev/null || true
 fi
 
 echo ""

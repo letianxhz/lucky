@@ -229,6 +229,59 @@ func (x *Int64) GetValue() int64 {
 	return 0
 }
 
+// UuidRange UUID 范围
+type UuidRange struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Start         int64                  `protobuf:"varint,1,opt,name=start,proto3" json:"start,omitempty"` // 起始值（包含）
+	End           int64                  `protobuf:"varint,2,opt,name=end,proto3" json:"end,omitempty"`     // 结束值（包含）
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UuidRange) Reset() {
+	*x = UuidRange{}
+	mi := &file_base_type_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UuidRange) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UuidRange) ProtoMessage() {}
+
+func (x *UuidRange) ProtoReflect() protoreflect.Message {
+	mi := &file_base_type_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UuidRange.ProtoReflect.Descriptor instead.
+func (*UuidRange) Descriptor() ([]byte, []int) {
+	return file_base_type_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UuidRange) GetStart() int64 {
+	if x != nil {
+		return x.Start
+	}
+	return 0
+}
+
+func (x *UuidRange) GetEnd() int64 {
+	if x != nil {
+		return x.End
+	}
+	return 0
+}
+
 type Double struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Value         float64                `protobuf:"fixed64,1,opt,name=value,proto3" json:"value,omitempty"`
@@ -238,7 +291,7 @@ type Double struct {
 
 func (x *Double) Reset() {
 	*x = Double{}
-	mi := &file_base_type_proto_msgTypes[5]
+	mi := &file_base_type_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -250,7 +303,7 @@ func (x *Double) String() string {
 func (*Double) ProtoMessage() {}
 
 func (x *Double) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[5]
+	mi := &file_base_type_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -263,7 +316,7 @@ func (x *Double) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Double.ProtoReflect.Descriptor instead.
 func (*Double) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{5}
+	return file_base_type_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Double) GetValue() float64 {
@@ -282,7 +335,7 @@ type String struct {
 
 func (x *String) Reset() {
 	*x = String{}
-	mi := &file_base_type_proto_msgTypes[6]
+	mi := &file_base_type_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -294,7 +347,7 @@ func (x *String) String() string {
 func (*String) ProtoMessage() {}
 
 func (x *String) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[6]
+	mi := &file_base_type_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -307,7 +360,7 @@ func (x *String) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use String.ProtoReflect.Descriptor instead.
 func (*String) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{6}
+	return file_base_type_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *String) GetValue() string {
@@ -327,7 +380,7 @@ type Int64Int32 struct {
 
 func (x *Int64Int32) Reset() {
 	*x = Int64Int32{}
-	mi := &file_base_type_proto_msgTypes[7]
+	mi := &file_base_type_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -339,7 +392,7 @@ func (x *Int64Int32) String() string {
 func (*Int64Int32) ProtoMessage() {}
 
 func (x *Int64Int32) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[7]
+	mi := &file_base_type_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -352,7 +405,7 @@ func (x *Int64Int32) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int64Int32.ProtoReflect.Descriptor instead.
 func (*Int64Int32) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{7}
+	return file_base_type_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Int64Int32) GetKey() int64 {
@@ -379,7 +432,7 @@ type Int64Int64 struct {
 
 func (x *Int64Int64) Reset() {
 	*x = Int64Int64{}
-	mi := &file_base_type_proto_msgTypes[8]
+	mi := &file_base_type_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -391,7 +444,7 @@ func (x *Int64Int64) String() string {
 func (*Int64Int64) ProtoMessage() {}
 
 func (x *Int64Int64) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[8]
+	mi := &file_base_type_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -404,7 +457,7 @@ func (x *Int64Int64) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int64Int64.ProtoReflect.Descriptor instead.
 func (*Int64Int64) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{8}
+	return file_base_type_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *Int64Int64) GetKey() int64 {
@@ -431,7 +484,7 @@ type Int32Int32 struct {
 
 func (x *Int32Int32) Reset() {
 	*x = Int32Int32{}
-	mi := &file_base_type_proto_msgTypes[9]
+	mi := &file_base_type_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -443,7 +496,7 @@ func (x *Int32Int32) String() string {
 func (*Int32Int32) ProtoMessage() {}
 
 func (x *Int32Int32) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[9]
+	mi := &file_base_type_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -456,7 +509,7 @@ func (x *Int32Int32) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int32Int32.ProtoReflect.Descriptor instead.
 func (*Int32Int32) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{9}
+	return file_base_type_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *Int32Int32) GetKey() int32 {
@@ -483,7 +536,7 @@ type Int32Int64 struct {
 
 func (x *Int32Int64) Reset() {
 	*x = Int32Int64{}
-	mi := &file_base_type_proto_msgTypes[10]
+	mi := &file_base_type_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -495,7 +548,7 @@ func (x *Int32Int64) String() string {
 func (*Int32Int64) ProtoMessage() {}
 
 func (x *Int32Int64) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[10]
+	mi := &file_base_type_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -508,7 +561,7 @@ func (x *Int32Int64) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int32Int64.ProtoReflect.Descriptor instead.
 func (*Int32Int64) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{10}
+	return file_base_type_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Int32Int64) GetKey() int32 {
@@ -534,7 +587,7 @@ type Int32List struct {
 
 func (x *Int32List) Reset() {
 	*x = Int32List{}
-	mi := &file_base_type_proto_msgTypes[11]
+	mi := &file_base_type_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -546,7 +599,7 @@ func (x *Int32List) String() string {
 func (*Int32List) ProtoMessage() {}
 
 func (x *Int32List) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[11]
+	mi := &file_base_type_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -559,7 +612,7 @@ func (x *Int32List) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int32List.ProtoReflect.Descriptor instead.
 func (*Int32List) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{11}
+	return file_base_type_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Int32List) GetList() []int32 {
@@ -578,7 +631,7 @@ type Int64List struct {
 
 func (x *Int64List) Reset() {
 	*x = Int64List{}
-	mi := &file_base_type_proto_msgTypes[12]
+	mi := &file_base_type_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -590,7 +643,7 @@ func (x *Int64List) String() string {
 func (*Int64List) ProtoMessage() {}
 
 func (x *Int64List) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[12]
+	mi := &file_base_type_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -603,7 +656,7 @@ func (x *Int64List) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int64List.ProtoReflect.Descriptor instead.
 func (*Int64List) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{12}
+	return file_base_type_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *Int64List) GetList() []int64 {
@@ -622,7 +675,7 @@ type Int32Map struct {
 
 func (x *Int32Map) Reset() {
 	*x = Int32Map{}
-	mi := &file_base_type_proto_msgTypes[13]
+	mi := &file_base_type_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -634,7 +687,7 @@ func (x *Int32Map) String() string {
 func (*Int32Map) ProtoMessage() {}
 
 func (x *Int32Map) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[13]
+	mi := &file_base_type_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -647,7 +700,7 @@ func (x *Int32Map) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int32Map.ProtoReflect.Descriptor instead.
 func (*Int32Map) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{13}
+	return file_base_type_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *Int32Map) GetValue() map[int32]int32 {
@@ -666,7 +719,7 @@ type Int32Int64Map struct {
 
 func (x *Int32Int64Map) Reset() {
 	*x = Int32Int64Map{}
-	mi := &file_base_type_proto_msgTypes[14]
+	mi := &file_base_type_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -678,7 +731,7 @@ func (x *Int32Int64Map) String() string {
 func (*Int32Int64Map) ProtoMessage() {}
 
 func (x *Int32Int64Map) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[14]
+	mi := &file_base_type_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -691,7 +744,7 @@ func (x *Int32Int64Map) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Int32Int64Map.ProtoReflect.Descriptor instead.
 func (*Int32Int64Map) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{14}
+	return file_base_type_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *Int32Int64Map) GetValue() map[int32]int64 {
@@ -711,7 +764,7 @@ type StringKeyValue struct {
 
 func (x *StringKeyValue) Reset() {
 	*x = StringKeyValue{}
-	mi := &file_base_type_proto_msgTypes[15]
+	mi := &file_base_type_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -723,7 +776,7 @@ func (x *StringKeyValue) String() string {
 func (*StringKeyValue) ProtoMessage() {}
 
 func (x *StringKeyValue) ProtoReflect() protoreflect.Message {
-	mi := &file_base_type_proto_msgTypes[15]
+	mi := &file_base_type_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -736,7 +789,7 @@ func (x *StringKeyValue) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StringKeyValue.ProtoReflect.Descriptor instead.
 func (*StringKeyValue) Descriptor() ([]byte, []int) {
-	return file_base_type_proto_rawDescGZIP(), []int{15}
+	return file_base_type_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *StringKeyValue) GetKey() string {
@@ -765,7 +818,10 @@ const file_base_type_proto_rawDesc = "" +
 	"\x05Int32\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\x05R\x05value\"\x1d\n" +
 	"\x05Int64\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x03R\x05value\"\x1e\n" +
+	"\x05value\x18\x01 \x01(\x03R\x05value\"3\n" +
+	"\tUuidRange\x12\x14\n" +
+	"\x05start\x18\x01 \x01(\x03R\x05start\x12\x10\n" +
+	"\x03end\x18\x02 \x01(\x03R\x03end\"\x1e\n" +
 	"\x06Double\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\x01R\x05value\"\x1e\n" +
 	"\x06String\x12\x14\n" +
@@ -818,30 +874,31 @@ func file_base_type_proto_rawDescGZIP() []byte {
 	return file_base_type_proto_rawDescData
 }
 
-var file_base_type_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_base_type_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_base_type_proto_goTypes = []any{
 	(*None)(nil),           // 0: pb.None
 	(*EmptyResponse)(nil),  // 1: pb.EmptyResponse
 	(*Bool)(nil),           // 2: pb.Bool
 	(*Int32)(nil),          // 3: pb.Int32
 	(*Int64)(nil),          // 4: pb.Int64
-	(*Double)(nil),         // 5: pb.Double
-	(*String)(nil),         // 6: pb.String
-	(*Int64Int32)(nil),     // 7: pb.Int64Int32
-	(*Int64Int64)(nil),     // 8: pb.Int64Int64
-	(*Int32Int32)(nil),     // 9: pb.Int32Int32
-	(*Int32Int64)(nil),     // 10: pb.Int32Int64
-	(*Int32List)(nil),      // 11: pb.Int32List
-	(*Int64List)(nil),      // 12: pb.Int64List
-	(*Int32Map)(nil),       // 13: pb.Int32Map
-	(*Int32Int64Map)(nil),  // 14: pb.Int32Int64Map
-	(*StringKeyValue)(nil), // 15: pb.StringKeyValue
-	nil,                    // 16: pb.Int32Map.ValueEntry
-	nil,                    // 17: pb.Int32Int64Map.ValueEntry
+	(*UuidRange)(nil),      // 5: pb.UuidRange
+	(*Double)(nil),         // 6: pb.Double
+	(*String)(nil),         // 7: pb.String
+	(*Int64Int32)(nil),     // 8: pb.Int64Int32
+	(*Int64Int64)(nil),     // 9: pb.Int64Int64
+	(*Int32Int32)(nil),     // 10: pb.Int32Int32
+	(*Int32Int64)(nil),     // 11: pb.Int32Int64
+	(*Int32List)(nil),      // 12: pb.Int32List
+	(*Int64List)(nil),      // 13: pb.Int64List
+	(*Int32Map)(nil),       // 14: pb.Int32Map
+	(*Int32Int64Map)(nil),  // 15: pb.Int32Int64Map
+	(*StringKeyValue)(nil), // 16: pb.StringKeyValue
+	nil,                    // 17: pb.Int32Map.ValueEntry
+	nil,                    // 18: pb.Int32Int64Map.ValueEntry
 }
 var file_base_type_proto_depIdxs = []int32{
-	16, // 0: pb.Int32Map.value:type_name -> pb.Int32Map.ValueEntry
-	17, // 1: pb.Int32Int64Map.value:type_name -> pb.Int32Int64Map.ValueEntry
+	17, // 0: pb.Int32Map.value:type_name -> pb.Int32Map.ValueEntry
+	18, // 1: pb.Int32Int64Map.value:type_name -> pb.Int32Int64Map.ValueEntry
 	2,  // [2:2] is the sub-list for method output_type
 	2,  // [2:2] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
@@ -860,7 +917,7 @@ func file_base_type_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_base_type_proto_rawDesc), len(file_base_type_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

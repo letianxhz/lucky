@@ -27,6 +27,12 @@ message Int64 {
   int64 value = 1;
 }
 
+// UuidRange UUID 范围
+message UuidRange {
+  int64 start = 1;  // 起始值（包含）
+  int64 end = 2;    // 结束值（包含）
+}
+
 message Double {
   double value = 1;
 }

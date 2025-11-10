@@ -15,8 +15,8 @@ if ! command -v go &> /dev/null; then
     exit 1
 fi
 
-# 构建
-go build -o protoc-gen-xdb main.go
+# 构建（包含所有 .go 文件）
+go build -o protoc-gen-xdb .
 
 echo "Build complete: protoc-gen-xdb"
 

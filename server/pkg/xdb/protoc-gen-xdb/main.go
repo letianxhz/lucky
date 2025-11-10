@@ -18,7 +18,11 @@ var (
 	showVersion = flag.Bool("version", false, "show version")
 
 	// SQL schema buffers for MySQL
+	// key: relativePath/tableName, value: buffer
 	sqlSchemaBuffers = make(map[string]*bytes.Buffer)
+
+	// SQL file paths mapping: tableName -> relativePath
+	sqlFilePaths = make(map[string]string)
 )
 
 func main() {
@@ -70,8 +74,24 @@ func hasXdbMessage(f *protogen.File) bool {
 
 // generateXdbFile 生成 xdb 文件
 func generateXdbFile(gen *protogen.Plugin, f *protogen.File) error {
-	filename := f.GeneratedFilenamePrefix + ".xdb.pb.go"
-	g := gen.NewGeneratedFile(filename, f.GoImportPath)
+	// 计算相对路径，保持与 proto 文件相同的目录结构
+	// 例如: db/proto/center/uuid.proto -> center/uuid.xdb.pb.go
+	protoPath := f.Desc.Path()
+	relativePath := getRelativePathForXdb(protoPath)
+	var filename string
+	if relativePath != "" {
+		filename = relativePath + ".xdb.pb.go"
+	} else {
+		// 根目录文件
+		filename = f.GeneratedFilenamePrefix + ".xdb.pb.go"
+		// 如果 GeneratedFilenamePrefix 包含路径，只取文件名部分
+		if idx := strings.LastIndex(filename, "/"); idx >= 0 {
+			filename = filename[idx+1:]
+		}
+	}
+	// 使用空字符串作为 import path，让 protoc 根据 filename 路径自动处理
+	// 这样可以避免生成到 lucky/server/gen/db 这样的完整路径
+	g := gen.NewGeneratedFile(filename, "")
 
 	// 收集所有需要生成的 message
 	messagesToGenerate := []*protogen.Message{}
@@ -398,8 +418,15 @@ func generateSQLSchema(gen *protogen.Plugin, f *protogen.File, msg *protogen.Mes
 	// 确保 sqlSchemaBuffers 已初始化
 	if sqlSchemaBuffers == nil {
 		sqlSchemaBuffers = make(map[string]*bytes.Buffer)
+		sqlFilePaths = make(map[string]string)
 	}
 
+	// 计算相对路径（相对于 db/proto 目录）
+	// 例如: center/uuid.proto -> center/uuid.sql
+	relativePath := getRelativePathForSQL(srcFileName)
+	sqlFilePaths[tableName] = relativePath
+
+	// 使用 tableName 作为 key，但记录路径信息
 	schema := getSQLSchemaBuffer(srcFileName, tableName)
 	schema.WriteString("\nCREATE TABLE `" + tableName + "` (")
 
@@ -494,7 +521,16 @@ func generateSQLFiles(gen *protogen.Plugin) error {
 	}
 
 	for tableName, schemaBuffer := range sqlSchemaBuffers {
-		sqlFileName := tableName + ".sql"
+		// 获取相对路径（如果有）
+		relativePath, hasPath := sqlFilePaths[tableName]
+		var sqlFileName string
+		if hasPath && relativePath != "" {
+			// 使用相对路径，例如: center/uuid.sql
+			sqlFileName = relativePath + ".sql"
+		} else {
+			// 默认在根目录
+			sqlFileName = tableName + ".sql"
+		}
 
 		// 创建输出文件（使用相对路径，protoc 会处理输出目录）
 		// 注意：NewGeneratedFile 的第二个参数是 Go import path，对于 SQL 文件可以留空
@@ -514,4 +550,93 @@ func generateSQLFiles(gen *protogen.Plugin) error {
 		}
 	}
 	return nil
+}
+
+// getRelativePathForXdb 根据 proto 文件路径计算 xdb 文件的相对路径
+func getRelativePathForXdb(protoPath string) string {
+	// protoPath 格式可能是: db/proto/center/uuid.proto 或 center/uuid.proto
+	// 需要提取相对于 db/proto 的路径部分，保留子目录结构
+
+	// 移除 .proto 后缀
+	path := strings.TrimSuffix(protoPath, ".proto")
+
+	// 查找 db/proto/ 的位置
+	dbProtoIdx := strings.Index(path, "db/proto/")
+	if dbProtoIdx >= 0 {
+		// 提取 db/proto/ 之后的部分（包括子目录和文件名）
+		relativePath := path[dbProtoIdx+len("db/proto/"):]
+		// 如果有子目录，返回子目录/文件名，否则返回空字符串
+		if idx := strings.LastIndex(relativePath, "/"); idx >= 0 {
+			// 有子目录，返回 center/uuid
+			return relativePath
+		}
+		// 没有子目录，返回空字符串（表示根目录）
+		return ""
+	}
+
+	// 如果没有 db/proto/，尝试查找 proto/ 之后的部分
+	protoIdx := strings.Index(path, "proto/")
+	if protoIdx >= 0 {
+		relativePath := path[protoIdx+len("proto/"):]
+		if idx := strings.LastIndex(relativePath, "/"); idx >= 0 {
+			// 有子目录
+			return relativePath
+		}
+		return ""
+	}
+
+	// 如果都没有，检查是否包含 /，提取目录部分
+	if idx := strings.LastIndex(path, "/"); idx >= 0 {
+		dir := path[:idx]
+		file := path[idx+1:]
+		if dir != "" {
+			return dir + "/" + file
+		}
+		return file
+	}
+
+	return ""
+}
+
+// getRelativePathForSQL 根据 proto 文件路径计算 SQL 文件的相对路径
+func getRelativePathForSQL(protoPath string) string {
+	// protoPath 格式可能是: db/proto/center/uuid.proto 或 center/uuid.proto
+	// 需要提取相对于 db/proto 的路径部分
+
+	// 移除 .proto 后缀
+	path := strings.TrimSuffix(protoPath, ".proto")
+
+	// 查找 db/proto/ 的位置
+	dbProtoIdx := strings.Index(path, "db/proto/")
+	if dbProtoIdx >= 0 {
+		// 提取 db/proto/ 之后的部分
+		relativePath := path[dbProtoIdx+len("db/proto/"):]
+		// 移除文件名，只保留目录路径
+		if idx := strings.LastIndex(relativePath, "/"); idx >= 0 {
+			return relativePath[:idx] + "/" + strings.TrimPrefix(relativePath[idx+1:], "/")
+		}
+		return ""
+	}
+
+	// 如果没有 db/proto/，尝试查找 proto/ 之后的部分
+	protoIdx := strings.Index(path, "proto/")
+	if protoIdx >= 0 {
+		relativePath := path[protoIdx+len("proto/"):]
+		if idx := strings.LastIndex(relativePath, "/"); idx >= 0 {
+			return relativePath[:idx] + "/" + strings.TrimPrefix(relativePath[idx+1:], "/")
+		}
+		return ""
+	}
+
+	// 如果都没有，检查是否包含 /，提取目录部分
+	if idx := strings.LastIndex(path, "/"); idx >= 0 {
+		dir := path[:idx]
+		file := path[idx+1:]
+		if dir != "" {
+			return dir + "/" + file
+		}
+		return file
+	}
+
+	return ""
 }

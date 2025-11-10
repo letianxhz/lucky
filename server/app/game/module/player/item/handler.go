@@ -4,12 +4,11 @@ import (
 	"lucky/server/app/game/db"
 	"lucky/server/app/game/module/shared/handler"
 	"lucky/server/gen/msg"
-
-	"lucky/server/pkg/code"
-	"lucky/server/gen/msg"
+	"lucky/server/pkg/di"
 
 	clog "github.com/cherry-game/cherry/logger"
 	cproto "github.com/cherry-game/cherry/net/proto"
+	"lucky/server/pkg/code"
 )
 
 // init 注册道具模块的消息处理器

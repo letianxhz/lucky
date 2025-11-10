@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"lucky/server/pkg/xdb"
-	"lucky/server/pkg/xdb/example/pb"
 )
 
 func init() {

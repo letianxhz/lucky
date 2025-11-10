@@ -1,9 +1,9 @@
 package ops
 
 import (
-	cactor "github.com/cherry-game/cherry/net/actor"
+	ccode "github.com/cherry-game/cherry/code"
+	cactor "github.com/che
 	"lucky/server/gen/msg"
-	
 )
 
 var (
@@ -27,5 +27,5 @@ func (p *ActorOps) OnInit() {
 
 // ping 请求center是否响应
 func (p *ActorOps) ping() (*msg.Bool, int32) {
-	return pingReturn, code.OK
+	return pingReturn, ccode.OK
 }

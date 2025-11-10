@@ -1,0 +1,15 @@
+syntax = "proto3";
+package db;
+
+option go_package = "lucky/server/gen/db";
+import "extension.proto";
+
+message Uuid {
+  option (xdb.table) = "uuid";
+  option (xdb.driver) = DRIVER_MYSQL;  // 使用 MySQL 驱动
+  string name = 1 [(xdb.pk) = true, (xdb.comment) = "名称"];
+  int64 value = 2 [(xdb.comment) = "当前值"];
+  int64 ctime = 61 [(xdb.comment) = "创建时间"];
+  int64 mtime = 62 [(xdb.comment) = "修改时间"];
+  int64 _version = 63 [(xdb.runtime) = true];
+}

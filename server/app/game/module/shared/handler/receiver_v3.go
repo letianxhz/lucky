@@ -81,30 +81,14 @@ func makeHandlerKey(actorType ActorType, route string) string {
 	return string(actorType) + ":" + route
 }
 
-// RegisterHandler 统一的注册函数，自动识别处理器返回值类型
-// 支持以下两种处理器签名：
-// 1. func(session *cproto.Session, req *TReq) (*TResp, error)  - 带返回值
-// 2. func(session *cproto.Session, req *T) error                - 只返回 error
-//
-// 用法（统一接口，自动识别）:
-//   - handler.RegisterHandler(handler.ActorTypeRoom, "createRoom", h.OnCreateRoom)  // 自动识别为带返回值
-//   - handler.RegisterHandler(handler.ActorTypeRoom, "leaveRoom", h.OnLeaveRoom)      // 自动识别为只返回 error
-//
-// 实现说明：由于 Go 不支持函数重载，我们通过泛型类型推断来实现统一接口
-// 编译器会根据处理器的返回值类型自动选择正确的实现
 func RegisterHandler[TReq any, TResp any](actorType ActorType, route string, handler GenericHandlerFuncWithResponse[TReq, TResp]) {
 	registerHandlerWithResponse(actorType, route, handler)
 }
 
-// RegisterHandlerWithActor 注册带 actor 参数的处理器
-// 处理器签名: func(session *cproto.Session, req *TReq, actor *pomelo.ActorBase) (*TResp, error)
 func RegisterHandlerWithActor[TReq any, TResp any](actorType ActorType, route string, handler GenericHandlerFuncWithResponseAndActor[TReq, TResp]) {
 	registerHandlerWithResponseAndActor(actorType, route, handler)
 }
 
-// RegisterHandlerError 注册返回 error 的处理器（用于只返回 error 的情况）
-// 当处理器只返回 error 时，使用这个函数
-// 注意：虽然函数名不同，但用法与 RegisterHandler 相同，都是统一接口
 func RegisterHandlerError[T any](actorType ActorType, route string, handler GenericHandlerFunc[T]) {
 	registerHandlerError(actorType, route, handler)
 }

@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"lucky/server/pkg/xdb"
-	"lucky/server/pkg/xdb/example/pb"
 	_ "lucky/server/pkg/xdb/storage/mysql"
 )
 

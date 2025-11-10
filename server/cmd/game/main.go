@@ -61,6 +61,9 @@ func main() {
 	// 各个模块通过 init 函数自动注册，这里统一注入依赖
 	di.MustInitialize()
 
+	// 初始化 UUID 管理器
+	uuid.InitManager(app)
+
 	// 注册所有 Actor（统一管理，便于维护和扩展）
 	// 新增 Actor 时，只需在 actor/registry.go 中添加即可
 	app.AddActors(actor.RegisterActors()...)

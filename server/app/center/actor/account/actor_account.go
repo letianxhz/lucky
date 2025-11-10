@@ -1,12 +1,12 @@
 package account
 
 import (
+	"lucky/server/pkg/code"
 	"strings"
 
 	cactor "github.com/cherry-game/cherry/net/actor"
 	"lucky/server/app/center/db"
 	"lucky/server/gen/msg"
-	
 )
 
 type (

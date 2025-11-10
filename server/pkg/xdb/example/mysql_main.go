@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	_ "lucky/server/pkg/xdb/storage/mysql"
 	"lucky/server/pkg/xdb"
+	_ "lucky/server/pkg/xdb/storage/mysql"
 )
 
 func main() {
@@ -91,4 +91,3 @@ func main() {
 
 	fmt.Println("=== MySQL 测试完成 ===")
 }
-

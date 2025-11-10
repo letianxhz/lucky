@@ -1,10 +1,10 @@
 package rpcCenter
 
 import (
-	cfacade "github.com/cherry-game/cherry/facade"
+	ccode "github.com/cherry-game/cherry/code"
+	cfacade "github.com/cherry-game/cherry/faca
 	clog "github.com/cherry-game/cherry/logger"
 	"lucky/server/gen/msg"
-	
 )
 
 // route = 节点类型.节点handler.remote函数
@@ -16,6 +16,7 @@ const (
 const (
 	opsActor     = ".ops"
 	accountActor = ".account"
+	uuidActor    = ".uuid"
 )
 
 const (
@@ -23,6 +24,7 @@ const (
 	registerDevAccount = "registerDevAccount"
 	getDevAccount      = "getDevAccount"
 	getUID             = "getUID"
+	allocateUUID       = "allocateUUID"
 )
 
 const (
@@ -39,7 +41,7 @@ func Ping(app cfacade.IApplication) bool {
 	rsp := &msg.Bool{}
 	targetPath := nodeID + opsActor
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, ping, nil, rsp)
-	if code.IsFail(errCode) {
+	if ccode.IsFail(errCode) {
 		return false
 	}
 
@@ -57,7 +59,7 @@ func RegisterDevAccount(app cfacade.IApplication, accountName, password, ip stri
 	targetPath := GetTargetPath(app, accountActor)
 	rsp := &msg.Int32{}
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, registerDevAccount, req, rsp)
-	if code.IsFail(errCode) {
+	if ccode.IsFail(errCode) {
 		clog.Warnf("[RegisterDevAccount] accountName = %s, errCode = %v", accountName, errCode)
 		return errCode
 	}
@@ -75,7 +77,7 @@ func GetDevAccount(app cfacade.IApplication, accountName, password string) int64
 	targetPath := GetTargetPath(app, accountActor)
 	rsp := &msg.Int64{}
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, getDevAccount, req, rsp)
-	if code.IsFail(errCode) {
+	if ccode.IsFail(errCode) {
 		clog.Warnf("[GetDevAccount] accountName = %s, errCode = %v", accountName, errCode)
 		return 0
 	}
@@ -94,12 +96,29 @@ func GetUID(app cfacade.IApplication, sdkId, pid int32, openId string) (cfacade.
 	targetPath := GetTargetPath(app, accountActor)
 	rsp := &msg.Int64{}
 	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, getUID, req, rsp)
-	if code.IsFail(errCode) {
+	if ccode.IsFail(errCode) {
 		clog.Warnf("[GetUID] errCode = %v", errCode)
 		return 0, errCode
 	}
 
-	return rsp.Value, code.OK
+	return rsp.Value, ccode.OK
+}
+
+// AllocateUUID 从 center 分配 UUID 范围（每次 1024 个）
+func AllocateUUID(app cfacade.IApplication, name string) (*msg.UuidRange, int32) {
+	req := &msg.String{
+		Value: name,
+	}
+
+	targetPath := GetTargetPath(app, uuidActor)
+	rsp := &msg.UuidRange{}
+	errCode := app.ActorSystem().CallWait(sourcePath, targetPath, allocateUUID, req, rsp)
+	if ccode.IsFail(errCode) {
+		clog.Warnf("[AllocateUUID] name = %s, errCode = %v", name, errCode)
+		return nil, errCode
+	}
+
+	return rsp, ccode.OK
 }
 
 func GetCenterNodeID(app cfacade.IApplication) string {
