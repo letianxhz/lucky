@@ -57,3 +57,5 @@ export MYSQL_DB MYSQL_HOST MYSQL_PORT MYSQL_USER MYSQL_PASSWORD
 
 go run mysql_main.go mysql_config.go "$PB_DIR/player.pb.go" "$PB_DIR/player_xdb.pb.go"
 
+
+

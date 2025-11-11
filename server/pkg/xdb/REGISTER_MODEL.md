@@ -95,3 +95,5 @@ func init() {
 1. 模型类型没有嵌入已注册的 `Record` 类型
 2. 同一个 `Record` 类型注册了多个 `Model` 类型
 
+
+

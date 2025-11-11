@@ -139,3 +139,5 @@ func main() {
 	fmt.Println("  4. 使用 xdb.Create, xdb.Get, xdb.Save 等函数")
 }
 
+
+

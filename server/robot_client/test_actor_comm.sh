@@ -19,3 +19,5 @@ echo ""
 echo "========== 测试完成 =========="
 echo "日志文件: /tmp/test_actor_comm.log"
 
+
+

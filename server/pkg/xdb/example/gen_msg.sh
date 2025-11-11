@@ -57,3 +57,5 @@ echo "✓ msg 文件生成完成"
 echo "  输出目录: $MSG_DIR"
 echo ""
 
+
+

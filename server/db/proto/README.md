@@ -55,3 +55,5 @@ message Player {
 - `gen_msg.sh` - 仅生成 msg 代码
 - `gen_db.sh` - 仅生成 db 脚本
 
+
+

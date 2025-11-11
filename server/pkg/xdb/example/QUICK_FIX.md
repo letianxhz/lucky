@@ -51,3 +51,5 @@ go build -o /tmp/xdb_test main.go config.go player.pb.go player_xdb.pb.go
 
 如果成功，说明所有文件都能正确编译。
 
+
+

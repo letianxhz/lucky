@@ -209,3 +209,5 @@ protoc --proto_path=lucky/server/pkg/xdb ...
 
 **解决**: 确保字段使用了 `xdb.pk = true` 选项，或者字段名包含 `Id` 或 `ID`。
 
+
+

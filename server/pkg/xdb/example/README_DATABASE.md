@@ -146,3 +146,5 @@ func (c *ProductionConfigurator) InitializeDatabase() error {
 
 4. 可选实现 `DatabaseConfig` 接口
 
+
+

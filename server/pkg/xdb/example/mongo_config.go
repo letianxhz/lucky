@@ -55,9 +55,9 @@ func (c *MongoConfigurator) DaoOptions(daoKey interface{}) interface{} {
 func (c *MongoConfigurator) TableOptions(driver string, table string) *xdb.TableOptions {
 	if driver == "mongo" {
 		return &xdb.TableOptions{
-			DaoKey:      "mongo",
-			Concurrence: 2,
-			SaveTimeout: 5 * time.Second,
+			DaoKey:       "mongo",
+			Concurrence:  2,
+			SaveTimeout:  5 * time.Second,
 			SyncInterval: 100 * time.Millisecond,
 		}
 	}
@@ -76,4 +76,3 @@ func SetupXdbWithMongo(ctx context.Context, mongoURI string) error {
 	}
 	return xdb.Setup(ctx, configurator)
 }
-

@@ -61,3 +61,5 @@ go run ./pkg/xdb/example
 - 使用终端：`go run main.go config.go player.pb.go player_xdb.pb.go`
 - 或使用包模式：`go run .`
 
+
+

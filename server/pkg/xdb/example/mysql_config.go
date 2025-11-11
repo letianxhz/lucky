@@ -10,11 +10,11 @@ import (
 
 // MySQLConfigurator MySQL 配置器
 type MySQLConfigurator struct {
-	dbName       string
-	host         string
-	port         int32
-	username     string
-	password     string
+	dbName   string
+	host     string
+	port     int32
+	username string
+	password string
 }
 
 // NewMySQLConfigurator 创建 MySQL 配置器
@@ -73,9 +73,9 @@ func (c *MySQLConfigurator) DaoOptions(daoKey interface{}) interface{} {
 func (c *MySQLConfigurator) TableOptions(driver string, table string) *xdb.TableOptions {
 	if driver == "mysql" {
 		return &xdb.TableOptions{
-			DaoKey:      "mysql",
-			Concurrence: 2,
-			SaveTimeout: 5 * time.Second,
+			DaoKey:       "mysql",
+			Concurrence:  2,
+			SaveTimeout:  5 * time.Second,
 			SyncInterval: 100 * time.Millisecond,
 		}
 	}
@@ -92,4 +92,3 @@ func SetupXdbWithMySQL(ctx context.Context, dbName, host string, port int32, use
 	configurator := NewMySQLConfigurator(dbName, host, port, username, password)
 	return xdb.Setup(ctx, configurator)
 }
-

@@ -113,3 +113,5 @@ cd lucky/server/pkg/xdb/protoc-gen-xdb
 2. 确保所有必需的字段都已定义
 3. 确保 xdb 模块已正确实现
 
+
+
